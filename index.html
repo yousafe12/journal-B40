@@ -1,1 +1,591 @@
-# journal-B40
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Laporan Densitas FAME B40</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: corporate technical report. White page, 12-column header, one deep navy accent, hairline rules; color only for data status. */
+:root{
+  --bg:#FFFFFF; --panel:#F6F7F9; --panel-2:#E9ECF0; --solid:#FFFFFF;
+  --line:#E2E6EB; --line-2:#C7CDD5;
+  --fg:#121820; --fg-2:#3C4652; --muted:#6A7480;
+  --acc:#173A5E; --acc-soft:#E8EEF5;
+  --low:#A86A12; --low-bg:#FBF0DC;
+  --ok:#2C7A4B; --ok-bg:#E3F2E9;
+  --high:#B3412B; --high-bg:#FBE6E1;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --gut:max(20px,env(safe-area-inset-left,0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--acc)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+.wrap{max-width:72rem;margin:0 auto;padding-left:var(--gut);padding-right:max(20px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono)}
+.label{font-family:var(--f-body);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+.progress{position:fixed;left:0;right:0;top:0;height:calc(3px + env(safe-area-inset-top,0px));z-index:60;pointer-events:none}
+.progress i{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--acc)}
+.mnav{display:none;position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.mnav .wrap{display:flex;gap:.4rem;overflow-x:auto;padding-block:.55rem;scrollbar-width:none}
+.mnav .wrap::-webkit-scrollbar{display:none}
+.mnav a{flex:none;text-decoration:none;font-size:.8rem;font-weight:500;color:var(--fg-2);border:1px solid var(--line);border-radius:6px;padding:.3rem .75rem;white-space:nowrap}
+.mnav a.on{color:#fff;background:var(--acc);border-color:var(--acc)}
+@media (max-width:980px){.mnav{display:block}}
+
+/* header */
+.hero{background:var(--panel);border-bottom:1px solid var(--line)}
+.topline{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.4rem 2rem;padding-block:1.1rem;border-bottom:1px solid var(--line)}
+.hgrid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:2rem;padding-block:2.6rem 2.4rem}
+.htitle{grid-column:1/span 8}
+.hmeta{grid-column:9/span 4;align-self:end}
+h1{font-family:var(--f-body);font-weight:600;font-size:clamp(1.9rem,3.4vw,2.85rem);line-height:1.15;letter-spacing:-.015em;margin:0;text-wrap:balance;color:var(--fg)}
+h1 .it{color:var(--acc)}
+.case{font-size:.95rem;font-weight:500;color:var(--fg-2);margin:.7rem 0 0}
+.en{font-style:italic;font-size:1.02rem;line-height:1.5;color:var(--muted);margin:1rem 0 0;max-width:44rem;padding-top:1rem;border-top:1px solid var(--line)}
+.author{border-left:3px solid var(--acc);padding-left:1rem}
+.author p{margin:0;color:var(--fg-2);font-size:.9rem;line-height:1.55;text-align:left}
+.author .nm{color:var(--fg);font-weight:700;letter-spacing:.03em;font-size:.95rem;margin-bottom:.2rem}
+.author .nm span{font-weight:500;letter-spacing:0;color:var(--fg-2)}
+.author .em{font-family:var(--f-mono);font-size:.76rem;color:var(--muted);margin-top:.5rem;word-break:break-all}
+@media (max-width:900px){.htitle,.hmeta{grid-column:1/-1}.hmeta{margin-top:1.8rem}}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding-bottom:0}
+.stat{background:var(--solid);border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem}
+.stat .n{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--fg)}
+.stat .n.acc{color:var(--acc)}
+.stat .n small{font-size:.55em;color:var(--fg-2);margin-left:.1em;font-weight:500}
+.stat .l{font-size:.8rem;color:var(--muted);margin-top:.3rem;line-height:1.4}
+@media (max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* executive summary */
+.exec{border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:8px;padding:1.4rem 1.6rem;margin:1.2rem 0 0;background:var(--solid)}
+.exec h2{font-size:1.15rem!important;margin:0 0 1rem!important}
+.exec ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem 2rem}
+.exec li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);font-size:.92rem;color:var(--fg-2);line-height:1.55}
+.exec li::before{content:"";width:.5rem;height:.5rem;border-radius:2px;background:var(--acc);margin-top:.5rem}
+.exec li b{color:var(--fg)}
+.exec .act{margin-top:1.2rem;padding:.8rem 1rem;background:var(--acc-soft);border-radius:6px;font-size:.92rem;color:var(--fg)}
+@media (max-width:700px){.exec ul{grid-template-columns:minmax(0,1fr)}.exec{padding:1.2rem}}
+
+/* body layout */
+.layout{display:grid;grid-template-columns:12rem minmax(0,1fr);gap:3.5rem;padding-block:2.8rem 4.5rem}
+@media (max-width:980px){.layout{grid-template-columns:minmax(0,1fr);gap:0;padding-block:1.8rem 3.5rem}}
+.toc{position:sticky;top:calc(1.6rem + env(safe-area-inset-top,0px));align-self:start}
+.toc ol{list-style:none;margin:.8rem 0 0;padding:0;display:grid;gap:.05rem;border-left:2px solid var(--line)}
+.toc a{display:block;text-decoration:none;color:var(--muted);font-size:.85rem;padding:.36rem 0 .36rem .9rem;margin-left:-2px;border-left:2px solid transparent;line-height:1.35}
+.toc a:hover{color:var(--fg)}
+.toc a.on{color:var(--acc);border-left-color:var(--acc);font-weight:600}
+@media (max-width:980px){.toc{display:none}}
+main{min-width:0}
+section{padding-block:.4rem 2.8rem;margin-bottom:2.8rem;border-bottom:1px solid var(--line);scroll-margin-top:4rem}
+section:last-child{border-bottom:0;margin-bottom:0}
+.sh{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1.2rem}
+.sh .k{font-family:var(--f-mono);font-size:.8rem;font-weight:500;color:var(--acc)}
+h2{font-weight:600;font-size:clamp(1.45rem,2.4vw,1.8rem);line-height:1.25;letter-spacing:-.01em;margin:0;color:var(--fg);text-wrap:balance}
+h3{font-weight:600;font-size:1.15rem;line-height:1.3;margin:2.2rem 0 .6rem;color:var(--fg);text-wrap:balance}
+.prose{max-width:none}
+p{margin:0 0 1rem;color:var(--fg-2)}
+p b,li b{color:var(--fg);font-weight:600}
+.lead{font-size:1.06rem;color:var(--fg)}
+.num{font-family:var(--f-mono);font-size:.9em;color:var(--fg)}
+p,.abs p,ol.rec li span,.cgrid p{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto}
+.exec li span,.cap,.en,.detail,.callout p{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto}
+.label,.case,.author p{text-align:left}
+@media (max-width:600px){body{font-size:15.5px}}
+
+.panel{background:var(--solid);border:1px solid var(--line);border-radius:8px;padding:1.3rem}
+.cap{font-size:.8rem;color:var(--muted);margin:.6rem 0 1.5rem;line-height:1.55}
+.cap b{color:var(--fg-2);font-weight:600}
+.ph{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.7rem;margin-bottom:1rem}
+.seg{display:inline-flex;flex-wrap:wrap;gap:.3rem}
+.seg button{appearance:none;cursor:pointer;background:var(--solid);border:1px solid var(--line-2);border-radius:6px;padding:.28rem .7rem;font-size:.78rem;font-weight:500;color:var(--fg-2);transition:background .15s,color .15s}
+.seg button:hover{background:var(--panel)}
+.seg button[aria-pressed="true"]{background:var(--acc);color:#fff;border-color:var(--acc)}
+.callout{border-left:3px solid var(--acc);background:var(--acc-soft);border-radius:0 6px 6px 0;padding:.9rem 1.2rem;margin:1.6rem 0}
+.callout .label{margin-bottom:.3rem;color:var(--acc)}
+.callout p{color:var(--fg)}
+.callout p:last-child{margin-bottom:0}
+.formula{font-family:var(--f-mono);font-size:.92rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.75rem 1rem;margin:.9rem 0;overflow-x:auto;white-space:nowrap}
+
+.abs{border:1px solid var(--line);border-radius:8px}
+.abs .ph{padding:.8rem 1.2rem;margin:0;border-bottom:1px solid var(--line);background:var(--panel);border-radius:8px 8px 0 0}
+.abs .body{padding:1.2rem 1.4rem 1.3rem}
+.abs p{color:var(--fg);margin:0}
+.abs [lang="en"] p{font-style:italic}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+.chips span{font-size:.75rem;color:var(--acc);background:var(--acc-soft);border-radius:4px;padding:.18rem .6rem}
+
+.tbl table{min-width:34rem}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;margin:1.2rem 0 0}
+table{border-collapse:collapse;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums}
+th,td{padding:.6rem .85rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-2);background:var(--panel);white-space:nowrap}
+td{color:var(--fg-2)}
+td.u{color:var(--fg);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.c{text-align:center!important}
+.r2 span{display:inline-block;min-width:3rem;padding:.14rem .4rem;border-radius:4px;font-family:var(--f-mono);font-size:.8rem}
+
+.bars{display:grid;gap:.8rem}
+.bar{display:grid;grid-template-columns:9rem minmax(0,1fr) 3rem;align-items:center;gap:1rem;font-size:.86rem;color:var(--fg-2)}
+.bar .t{height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden}
+.bar .f{height:100%;background:var(--ok);border-radius:4px}
+.bar .f.bad{background:var(--high)}
+.bar .v{font-family:var(--f-mono);text-align:right;color:var(--fg)}
+@media (max-width:520px){.bar{grid-template-columns:6.6rem minmax(0,1fr) 2.6rem;gap:.6rem;font-size:.8rem}}
+
+.heat-wrap{display:grid;grid-template-columns:minmax(0,1fr) 15.5rem;gap:1.3rem}
+@media (max-width:880px){.heat-wrap{grid-template-columns:minmax(0,1fr)}}
+.hrow{display:grid;grid-template-columns:4.4rem minmax(0,1fr);gap:.6rem;align-items:center;padding:.3rem 0}
+.hrow+.hrow{border-top:1px solid var(--line)}
+.hrow .un{font-weight:600;font-size:.8rem}
+.cells{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.cell{appearance:none;cursor:pointer;width:100%;aspect-ratio:1;max-width:3.3rem;min-height:2.5rem;border-radius:5px;border:1.5px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;transition:opacity .2s,border-color .15s;position:relative}
+.cell .f{font-family:var(--f-mono);font-size:.95rem;font-weight:500}
+.cell .d{font-family:var(--f-mono);font-size:.58rem;opacity:.75;margin-top:2px}
+.cell.low{background:var(--low-bg);color:var(--low)}.cell.ok{background:var(--ok-bg);color:var(--ok)}.cell.high{background:var(--high-bg);color:var(--high)}
+.cell:hover{border-color:var(--line-2)}
+.cell.sel{border-color:var(--acc)}
+.cell.dim{opacity:.18}
+.cell.fix::after{content:"";position:absolute;top:4px;right:4px;width:4px;height:4px;border-radius:50%;background:var(--acc)}
+@media (max-width:520px){.hrow{grid-template-columns:minmax(0,1fr);gap:.35rem}.cells{grid-template-columns:repeat(5,minmax(0,1fr))}.cell{max-width:none}}
+.detail{border:1px solid var(--line);border-radius:8px;padding:1rem 1.1rem;background:var(--panel);align-self:start;position:sticky;top:4.5rem}
+@media (max-width:880px){.detail{position:static}}
+.detail .big{font-size:2rem;font-weight:600;line-height:1;margin:.5rem 0 .1rem;color:var(--fg)}
+.detail dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.4rem .8rem;margin:.6rem 0 0;font-size:.82rem}
+.detail dt{color:var(--muted)}
+.detail dd{margin:0;font-family:var(--f-mono);text-align:right;color:var(--fg)}
+.detail dd.bad{color:var(--high);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:.76rem;color:var(--fg-2);margin-top:1rem}
+.legend i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:.4rem;vertical-align:-1px}
+
+.chart{width:100%;display:block;overflow:visible}
+.chart text{font-family:var(--f-mono)}
+.tip{position:fixed;z-index:70;pointer-events:none;background:var(--fg);color:#fff;font-size:.76rem;line-height:1.35;padding:.45rem .6rem;border-radius:5px;opacity:0;transform:translate(-50%,-115%);transition:opacity .12s;white-space:nowrap;font-family:var(--f-mono)}
+.readout{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-family:var(--f-mono);font-size:.8rem;color:var(--fg-2);margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line)}
+.readout b{color:var(--fg);font-weight:500}
+
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.6rem}
+@media (max-width:760px){.calc{grid-template-columns:minmax(0,1fr)}}
+.field{display:grid;gap:.4rem;margin-bottom:1.2rem}
+.field .top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.field label{font-size:.86rem;color:var(--fg-2);font-weight:500}
+.field input[type=number]{width:6.4rem;background:var(--solid);border:1px solid var(--line-2);border-radius:6px;color:var(--fg);font:500 1rem var(--f-mono);padding:.32rem .55rem;text-align:right}
+input[type=range]{width:100%;accent-color:var(--acc);height:24px}
+.out{background:var(--panel);border-radius:8px;padding:1.1rem 1.2rem}
+.out .big{font-size:clamp(2.2rem,5vw,2.9rem);font-weight:600;line-height:1.05;color:var(--fg)}
+.out .row{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);padding:.55rem 0;font-size:.86rem;color:var(--fg-2)}
+.out .row span:last-child{font-family:var(--f-mono);color:var(--fg)}
+.status{display:inline-block;font-size:.78rem;font-weight:600;border-radius:4px;padding:.22rem .65rem;margin:.6rem 0 .9rem}
+.status.low{background:var(--low-bg);color:var(--low)}.status.ok{background:var(--ok-bg);color:var(--ok)}.status.high{background:var(--high-bg);color:var(--high)}
+.gauge{position:relative;height:8px;border-radius:4px;margin:1.4rem 0 1.9rem;background:linear-gradient(90deg,#EBC98C 0 35%,#9ED1B1 35% 52.5%,#EDA898 52.5% 100%)}
+.gauge .mk{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--acc);border:3px solid #fff;box-shadow:0 0 0 1px var(--acc);transform:translate(-50%,-50%);transition:left .25s}
+.gauge .tk{position:absolute;top:14px;font-family:var(--f-mono);font-size:.66rem;color:var(--muted);transform:translateX(-50%)}
+
+.cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cgrid>div{padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:8px}
+.cgrid .label{margin-bottom:.4rem;color:var(--acc)}
+.cgrid h4{font-size:1.02rem;font-weight:600;line-height:1.3;margin:0 0 .4rem;color:var(--fg)}
+.cgrid p{margin:0;font-size:.9rem}
+@media (max-width:680px){.cgrid{grid-template-columns:minmax(0,1fr)}}
+ol.rec{list-style:none;margin:0;padding:0;counter-reset:r;border-top:1px solid var(--line)}
+ol.rec li{counter-increment:r;display:grid;grid-template-columns:2.6rem minmax(0,1fr);padding:.85rem 0;border-bottom:1px solid var(--line);color:var(--fg-2)}
+ol.rec li::before{content:counter(r);font-family:var(--f-mono);font-size:.78rem;font-weight:500;color:#fff;background:var(--acc);width:1.6rem;height:1.6rem;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-top:.1rem}
+.refs{list-style:none;margin:0;padding:0;display:grid;gap:.75rem;font-size:.86rem}
+.refs li{padding-left:1.8rem;text-indent:-1.8rem;color:var(--fg-2)}
+.refs i{color:var(--fg)}
+.rg{margin:1.8rem 0 .8rem}
+details summary{cursor:pointer;font-size:.88rem;font-weight:500;color:var(--acc);list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"+";font-family:var(--f-mono);display:inline-block;width:1.2rem}
+details[open] summary::before{content:"–"}
+footer{border-top:1px solid var(--line);background:var(--panel);padding-block:1.6rem calc(2rem + env(safe-area-inset-bottom,0px));font-size:.8rem;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem}
+</style>
+</head>
+<body>
+
+
+<div class="progress" aria-hidden="true"><i id="prog"></i></div>
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<header class="hero" lang="id">
+  <div class="wrap">
+    <div class="topline"><span class="label">Jurnal penelitian · Biosolar B40</span><span class="label">Data Januari–September 2025</span></div>
+    <div class="hgrid">
+      <div class="htitle">
+        <h1>Density at 15 °C as an Indicator of <span class="it">Inconsistent</span> FAME Blending in B40 Biodiesel</h1>
+        <p class="case">A Case Study of Fuel Trucks at PPA Site MIPL</p>
+        <p class="en">Densitas @15 °C sebagai Indikator Inkonsistensi Pencampuran FAME pada Biosolar B40: Studi Kasus Fuel Truck di PPA Site MIPL</p>
+      </div>
+      <div class="hmeta">
+        <div class="author">
+          <p class="nm">YOSEP MUSLIM HABIBI <span>— SCM Processor</span></p>
+          <p>Departemen SCM-FAW</p>
+          <p>PT Putra Perkasa Abadi Site MIPL, Lahat</p>
+          <p class="em">yosephabibi299@gmail.com</p>
+        </div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">51</div><div class="l">sampel uji laboratorium</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">unit fuel truck</div></div>
+      <div class="stat"><div class="n">17–78<small>%</small></div><div class="l">rentang kadar FAME, nominal 40 %</div></div>
+      <div class="stat"><div class="n acc">0,89</div><div class="l">R² densitas @15 °C terhadap FAME</div></div>
+    </div>
+    <div class="exec" id="ringkasan">
+      <h2>Ringkasan eksekutif</h2>
+      <ul>
+        <li><span><b>Kadar FAME tidak konsisten.</b> Dari 51 sampel, kadar FAME berkisar 17–78 %. Hanya 16 sampel (31 %) yang sesuai B40.</span></li>
+        <li><span><b>Masalah terjadi dua arah.</b> 20 sampel kurang dari B40 dan 15 sampel berlebih di atas 50 %, termasuk pada tanggal yang sama.</span></li>
+        <li><span><b>Densitas bisa jadi indikator awal.</b> Densitas @15 °C sangat erat hubungannya dengan kadar FAME (R² 0,89).</span></li>
+        <li><span><b>Pengecekan sekarang belum cukup.</b> Rentang spesifikasi 815–880 kg/m³ masih meloloskan campuran setara B70.</span></li>
+      </ul>
+      <div class="act"><b>Usulan tindakan:</b> setiap penerimaan, densitas dikoreksi ke 15 °C lalu dibandingkan dengan acuan B40 (854–861 kg/m³). Di luar rentang itu, sampel dikirim untuk uji FAME.</div>
+    </div>
+    <div style="height:2.4rem"></div>
+  </div>
+</header>
+
+<nav class="mnav" aria-label="Navigasi bagian"><div class="wrap" id="mnav"></div></nav>
+
+<div class="wrap layout" lang="id">
+  <nav class="toc" aria-label="Daftar isi"><span class="label">Daftar isi</span><ol id="toc"></ol></nav>
+  <main>
+
+    <section id="abstrak" data-t="Abstrak">
+      <div class="sh"><span class="k">00</span><h2>Abstrak</h2></div>
+      <div class="abs">
+        <div class="ph"><span class="label">Ringkasan penelitian</span>
+          <div class="seg" role="group" aria-label="Bahasa abstrak"><button id="b-id" aria-pressed="true">Indonesia</button><button id="b-en" aria-pressed="false">English</button></div></div>
+        <div class="body">
+          <div id="abs-id" lang="id">
+            <p>Penggunaan Fatty Acid Methyl Ester (FAME) sebagai komponen campuran pada biosolar B40 menuntut pengendalian mutu bahan bakar yang ketat selama penerimaan, penyimpanan, dan distribusi. Penelitian ini bertujuan menganalisis hubungan antara kadar FAME dengan densitas pada 15 °C serta parameter fisikokimia lainnya (viskositas kinematik, titik nyala, kandungan sulfur, dan kadar air) menggunakan 51 sampel dari enam unit fuel truck selama periode Januari–September 2025. Densitas yang dianalisis adalah densitas pada suhu referensi 15 °C, karena densitas yang terukur di lapangan dipengaruhi oleh suhu sehingga harus dikoreksi terlebih dahulu agar dapat dibandingkan secara langsung dengan spesifikasi. Hasil menunjukkan bahwa kadar campuran FAME tidak konsisten antarpengiriman, dengan rentang 17–78 % v/v: 20 sampel berada di bawah kadar nominal B40 dan 15 sampel berada di atas 50 % v/v. Densitas @15 °C berkorelasi positif kuat dengan kadar FAME pada seluruh unit (R² = 0,70–0,96; R² gabungan = 0,89), diikuti viskositas kinematik (R² = 0,58–0,90). Kandungan sulfur berkorelasi negatif (R² = 0,16–0,84), titik nyala berkorelasi positif lemah hingga sedang (R² = 0,11–0,66), sedangkan kadar air tidak menunjukkan hubungan yang konsisten. Persamaan gabungan ρ15 = 843,4 + 0,350 × FAME menunjukkan bahwa densitas @15 °C dapat digunakan sebagai indikator awal (early indicator) penyimpangan kadar FAME, baik berlebih maupun kurang, sebelum hasil laboratorium lengkap tersedia. Penelitian lanjutan diperlukan untuk memvalidasi penggunaan densitas @15 °C sebagai indikator awal di lapangan dengan jumlah sampel yang lebih besar, serta mengkaji pengaruh paparan termal, karakteristik tangki, dan faktor operasional lainnya.</p>
+            <div class="chips"><span>FAME</span><span>B40</span><span>densitas @15 °C</span><span>inkonsistensi pencampuran</span><span>indikator awal</span><span>fuel truck</span></div>
+          </div>
+          <div id="abs-en" lang="en" hidden>
+            <p>The use of Fatty Acid Methyl Ester (FAME) as a blending component in B40 biodiesel requires strict fuel quality control during receipt, storage, and distribution. This study analyzes the relationship between FAME content and density at 15 °C, as well as other physicochemical parameters (kinematic viscosity, flash point, sulfur content, and water content), using 51 samples collected from six fuel trucks between January and September 2025. The density analyzed is density at the 15 °C reference temperature, because field-measured density depends on temperature and must be corrected before it can be compared directly with the specification. The results show that FAME blending was inconsistent between deliveries, ranging from 17 to 78 % v/v: 20 samples were below the nominal B40 level and 15 samples exceeded 50 % v/v. Density at 15 °C showed a strong positive correlation with FAME content in every unit (R² = 0.70–0.96; pooled R² = 0.89), followed by kinematic viscosity (R² = 0.58–0.90). Sulfur content was negatively correlated (R² = 0.16–0.84), flash point showed a weak-to-moderate positive correlation (R² = 0.11–0.66), and water content showed no consistent relationship. The pooled equation ρ15 = 843.4 + 0.350 × FAME indicates that density at 15 °C can serve as an early indicator of FAME content deviation, whether excessive or insufficient, before full laboratory results are available. Further research with a larger sample size is needed to validate the use of density at 15 °C as an early indicator in the field and to examine the effects of thermal exposure, tank characteristics, and other operational factors.</p>
+            <div class="chips"><span>FAME</span><span>B40</span><span>density at 15 °C</span><span>blending inconsistency</span><span>early indicator</span><span>fuel truck</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pendahuluan" data-t="Pendahuluan">
+      <div class="sh"><span class="k">01</span><h2>Pendahuluan</h2></div>
+      <div class="prose">
+        <p class="lead">Biosolar adalah campuran solar fosil dan biodiesel (FAME). Fraksi nabatinya lebih berat, sehingga setiap tambahan FAME menaikkan densitas, menaikkan viskositas dan titik nyala, serta menurunkan kandungan sulfur campuran (Knothe, 2005; Demirbas, 2009).</p>
+        <p>Kebijakan mandatori biodiesel di Indonesia berlandaskan Peraturan Menteri ESDM Nomor 32 Tahun 2008 beserta perubahannya, antara lain Peraturan Menteri ESDM Nomor 12 Tahun 2015. Kadar campuran 40 % (B40) berlaku sejak <b>1 Januari 2025</b> melalui Keputusan Menteri ESDM Nomor 341.K/EK.01/MEM.E/2024, dengan standar mutu dari Keputusan Direktur Jenderal Minyak dan Gas Bumi Nomor 384.K/MG.06/DJM/2024. ASTM D975 hanya mencakup biodiesel hingga B5 dan ASTM D7467 mencakup B6–B20, sedangkan SNI 7182:2015 mengatur biodiesel murni (B100). Karena itu, acuan mutu B40 di Indonesia adalah keputusan Dirjen Migas tersebut.</p>
+        <p>PT Putra Perkasa Abadi (PPA), kontraktor jasa pertambangan batu bara, memakai B40 sebagai bahan bakar utama seluruh unit operasionalnya. Di site MIPL, setiap penerimaan solar sudah melalui pemeriksaan dokumen, pengecekan visual, serta verifikasi densitas dan suhu.</p>
+        <div class="callout"><div class="label">Pemicu penelitian</div><p>Hasil laboratorium pada unit <b>Komatsu EXA 1250</b> menunjukkan kandungan FAME yang jauh di atas kadar nominal B40, bahkan mendekati campuran B70. Pada unit tersebut ditemukan penurunan performa hingga kerusakan komponen sistem injeksi bahan bakar yang diduga berkaitan dengan kondisi ini.</p></div>
+        <p>Kadar FAME yang terlalu tinggi dapat meningkatkan densitas dan viskositas, menurunkan stabilitas oksidasi sehingga mempercepat pembentukan endapan dan penyumbatan filter, serta menurunkan nilai kalor bahan bakar. Penelitian ini menguji apakah densitas, yang sudah diukur setiap kali penerimaan, dapat menjadi <b>indikator awal</b> penyimpangan kadar FAME sebelum bahan bakar dipakai di lapangan.</p>
+      </div>
+    </section>
+
+    <section id="metode" data-t="Metode">
+      <div class="sh"><span class="k">02</span><h2>Metode</h2></div>
+      <div class="prose">
+        <p>Penelitian ini memakai pendekatan kuantitatif deskriptif-korelasional. Data berasal dari hasil uji laboratorium (Certificate of Analysis) SOS Laboratory PT Trakindo Utama, dokumentasi dan laporan pengecekan aktual saat penerimaan solar, serta standar resmi B40 dari Direktorat Jenderal Minyak dan Gas Bumi. Sampel diambil sebanyak 1 liter per pengambilan dari enam unit fuel truck: FT2507 dan FT2513 (masing-masing 9 sampel), FT2518 (10), FT2537 (8), FT2510 (9), dan FT2511 (6).</p>
+      </div>
+      <div class="tbl"><table>
+        <thead><tr><th>Parameter</th><th>Metode uji</th><th>Satuan</th><th class="c">Min</th><th class="c">Maks</th></tr></thead>
+        <tbody>
+          <tr><td class="u">Densitas @15 °C</td><td>ASTM D1298 / D4052</td><td>kg/m³</td><td class="c">815</td><td class="c">880</td></tr>
+          <tr><td class="u">Viskositas kinematik @40 °C</td><td>ASTM D445</td><td>mm²/s</td><td class="c">2,0</td><td class="c">5,0</td></tr>
+          <tr><td class="u">Flash point PMCC</td><td>ASTM D93</td><td>°C</td><td class="c">52</td><td class="c">–</td></tr>
+          <tr><td class="u">Kadar air</td><td>ASTM D6304</td><td>mg/kg</td><td class="c">–</td><td class="c">380</td></tr>
+          <tr><td class="u">Kandungan FAME</td><td>ASTM D7371 / D7806</td><td>% v/v</td><td class="c">40</td><td class="c">–</td></tr>
+          <tr><td class="u">Sulfur</td><td>ASTM D2622 / D4294</td><td>ppm</td><td class="c">–</td><td class="c">2000</td></tr>
+          <tr><td class="u">Total acid number</td><td>ASTM D664</td><td>mg KOH/g</td><td class="c">–</td><td class="c">0,6</td></tr>
+          <tr><td class="u">Distilasi (90 % vol)</td><td>ASTM D86</td><td>°C</td><td class="c">–</td><td class="c">370</td></tr>
+          <tr><td class="u">Stabilitas oksidasi</td><td>EN 15751</td><td>jam</td><td class="c">35</td><td class="c">–</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap"><b>Tabel 1.</b> Acuan mutu B40 CN48 (Kepdirjen Migas No. 384.K/MG.06/DJM/2024; Fuel Reference Guide SOS Laboratory).</p>
+      <div class="prose">
+        <h3>Koreksi suhu ke 15 °C</h3>
+        <p>Densitas yang dibaca hidrometer di lapangan adalah densitas pada suhu observasi. Bahan bakar memuai ketika suhu naik, sehingga densitas solar dan biosolar turun sekitar <span class="num">0,7 kg/m³</span> setiap kenaikan 1 °C. Setiap pembacaan dikoreksi ke 15 °C memakai tabel ASTM D1250 (API MPMS Chapter 11.1, Tabel 53B) sebelum dibandingkan dengan spesifikasi.</p>
+        <div class="formula">840 kg/m³ @35 °C &nbsp;→&nbsp; ≈ 854 kg/m³ @15 °C</div>
+        <h3>Analisis</h3>
+        <p>Hubungan antarparameter dianalisis dengan regresi linear sederhana, dengan kadar FAME (% v/v) sebagai variabel bebas. Kekuatan hubungan dinyatakan dengan koefisien determinasi (R²) dan arahnya dari tanda kemiringan garis. Kategori R²: &lt; 0,25 sangat lemah, 0,25–0,50 lemah, 0,50–0,70 sedang, 0,70–0,90 kuat, ≥ 0,90 sangat kuat. Sebelum dianalisis, densitas setiap sampel dicek silang dengan nilai API gravity.</p>
+      </div>
+    </section>
+
+    <section id="hasil" data-t="Hasil">
+      <div class="sh"><span class="k">03</span><h2>Hasil dan pembahasan</h2></div>
+      <div class="prose"><p>Hampir semua parameter fisik lolos spesifikasi: densitas 847–869 kg/m³, viskositas 2,34–3,70 mm²/s, dan kadar air 227–371 mg/kg. Satu sampel (FT2510, 1 Maret 2025) memiliki titik nyala 49 °C, di bawah batas 52 °C. Penyimpangan terbesar ada pada kadar FAME.</p></div>
+      <div class="panel" id="specPanel"><div class="label" style="margin-bottom:1.1rem">Persentase sampel yang memenuhi, n = 51</div><div class="bars" id="specBars"></div></div>
+      <p class="cap"><b>Gambar 1.</b> Densitas, viskositas, dan kadar air 100 % memenuhi spesifikasi, tetapi hanya 16 dari 51 sampel yang kadar FAME-nya berada di kisaran 40–50 %.</p>
+
+      <h3>Data laboratorium per sampel</h3>
+      <div class="prose"><p>Kadar FAME berkisar 17–78 % v/v. <b>20 sampel</b> berada di bawah 40 % dan <b>15 sampel</b> di atas 50 %, 9 di antaranya mencapai 60 % atau lebih. Ketuk kotak mana pun untuk melihat seluruh hasil uji sampel tersebut.</p></div>
+      <div class="panel">
+        <div class="ph"><span class="label">FAME (% v/v) · densitas @15 °C</span>
+          <div class="seg" role="group" aria-label="Saring kategori" id="heatFilter">
+            <button data-f="all" aria-pressed="true">Semua 51</button><button data-f="low" aria-pressed="false">Kurang 20</button><button data-f="ok" aria-pressed="false">Sesuai 16</button><button data-f="high" aria-pressed="false">Berlebih 15</button></div></div>
+        <div class="heat-wrap">
+          <div id="heat"></div>
+          <aside class="detail" id="detail" aria-live="polite"></aside>
+        </div>
+        <div class="legend"><span><i style="background:var(--low)"></i>&lt; 40 % kurang</span><span><i style="background:var(--ok)"></i>40–50 % sesuai</span><span><i style="background:var(--high)"></i>&gt; 50 % berlebih</span><span><i style="background:var(--acc);border-radius:50%;width:.4rem;height:.4rem;vertical-align:1px"></i>densitas dikoreksi</span></div>
+      </div>
+      <p class="cap"><b>Gambar 2.</b> Angka besar adalah kadar FAME, angka kecil densitas @15 °C. FT2537 sampel ke-6 tertulis 361 kg/m³ di laporan dan dikoreksi menjadi 861 kg/m³ berdasarkan API gravity 32,70.</p>
+
+      <h3>Di hari yang sama, kadar FAME berbeda jauh</h3>
+      <div class="prose"><p>Pada tanggal sampling yang sama, kadar FAME antar fuel truck bisa sangat berbeda. Pada 23 April 2025 rentangnya 27–73 % v/v. Pola ini mengarah pada campuran yang tidak homogen saat pengisian atau penyimpanan, bukan hanya perbedaan antarpengiriman.</p></div>
+      <div class="panel"><div class="label" style="margin-bottom:.6rem">Kadar FAME per fuel truck pada tanggal yang sama</div><svg class="chart" id="sameDay" role="img" aria-label="Kadar FAME enam fuel truck pada lima tanggal sampling"></svg></div>
+      <p class="cap"><b>Gambar 3.</b> Setiap titik adalah satu fuel truck; batang abu-abu menunjukkan rentang hari itu. Garis putus-putus menandai kadar nominal B40.</p>
+
+      <h3>Eksplorasi hubungan dengan FAME</h3>
+      <div class="prose"><p>Densitas mengikuti kadar FAME pada keenam unit (R² 0,70–0,96), dengan kemiringan relatif seragam sekitar 0,31–0,39 kg/m³ per 1 % FAME (Demirbas, 2008; Knothe, 2005). Viskositas juga naik, sulfur turun, flash point naik lemah, dan kadar air tidak konsisten. Pilih parameter dan unit untuk melihat sendiri.</p></div>
+      <div class="panel">
+        <div class="ph">
+          <div class="seg" role="group" aria-label="Pilih parameter" id="paramSeg"></div>
+          <div class="seg" role="group" aria-label="Pilih unit" id="unitSeg"></div>
+        </div>
+        <svg class="chart" id="scatter" role="img" aria-label="Diagram sebar parameter terhadap kadar FAME"></svg>
+        <div class="readout" id="readout"></div>
+      </div>
+      <p class="cap"><b>Gambar 4.</b> Garis hitam adalah regresi gabungan 51 sampel; garis merah putus-putus adalah regresi unit yang dipilih.</p>
+
+      <div class="callout"><div class="label">Catatan validasi data</div><p>FT2537 awalnya menunjukkan R² ≈ 0,00003, seolah tidak ada hubungan antara FAME dan densitas. Penyebabnya satu salah input: densitas 13 Juni 2025 tercatat <span class="num">361</span>, seharusnya <span class="num">861</span> kg/m³. Setelah dikoreksi, R²-nya <b>0,89</b>.</p></div>
+
+      <div class="tbl"><table>
+        <thead><tr><th>Parameter</th><th class="c">FT2507</th><th class="c">FT2513</th><th class="c">FT2518</th><th class="c">FT2537</th><th class="c">FT2510</th><th class="c">FT2511</th><th class="c">Gabungan</th><th>Arah</th></tr></thead>
+        <tbody id="r2rows"></tbody>
+      </table></div>
+      <p class="cap"><b>Tabel 2.</b> Koefisien determinasi (R²) setiap parameter terhadap kadar FAME.</p>
+    </section>
+
+    <section id="indikator" data-t="Indikator">
+      <div class="sh"><span class="k">04</span><h2>Densitas sebagai indikator awal</h2></div>
+      <div class="prose">
+        <p>Regresi gabungan menghasilkan <span class="num">ρ15 = 843,4 + 0,350 × FAME</span> (R² = 0,89; p &lt; 0,001). Jika ditarik ke 0 % dan 100 % FAME, hasilnya sekitar 843 dan 878 kg/m³, sesuai densitas tipikal solar fosil dan biodiesel sawit. B40 berada di sekitar <b>857 kg/m³</b>, sedangkan B70 sekitar 868 kg/m³, keduanya masih lolos spesifikasi 815–880 kg/m³. Karena itu, densitas berguna sebagai indikator hanya bila dibandingkan dengan acuan B40, bukan dengan rentang spesifikasi.</p>
+        <p>Coba hitung sendiri dengan pembacaan hidrometer di lapangan:</p>
+      </div>
+      <div class="panel calc">
+        <div>
+          <div class="label" style="margin-bottom:1.2rem">Kalkulator lapangan</div>
+          <div class="field"><div class="top"><label for="rho">Densitas observasi (kg/m³)</label><input type="number" id="rho" min="800" max="900" step="0.5" value="842"></div><input type="range" id="rhoR" min="820" max="880" step="0.5" value="842" aria-label="Geser densitas observasi"></div>
+          <div class="field"><div class="top"><label for="tmp">Suhu observasi (°C)</label><input type="number" id="tmp" min="0" max="60" step="0.5" value="33"></div><input type="range" id="tmpR" min="15" max="50" step="0.5" value="33" aria-label="Geser suhu observasi"></div>
+          <p class="cap" style="margin:0">Pendekatan koefisien muai ±0,00083 per °C. Untuk keperluan resmi gunakan tabel ASTM D1250.</p>
+        </div>
+        <div class="out" aria-live="polite">
+          <div class="label">Densitas @15 °C</div>
+          <div class="big" id="oRho">—</div>
+          <span class="status" id="oStatus">—</span>
+          <div class="gauge" id="gauge"><span class="mk" id="mk"></span></div>
+          <div class="row"><span>Perkiraan kadar FAME</span><span id="oFame">—</span></div>
+          <div class="row"><span>Setara campuran</span><span id="oB">—</span></div>
+          <div class="row"><span>Tindakan</span><span id="oAct">—</span></div>
+        </div>
+      </div>
+      <p class="cap"><b>Gambar 5.</b> Ambang: &lt; 854 kg/m³ kemungkinan FAME kurang (≤ B30), 854–861 sekitar B40, &gt; 861 kemungkinan FAME berlebih (≥ B50). Ketelitian ±5 % v/v; ambang ini masih perlu divalidasi dengan data lapangan yang lebih banyak.</p>
+    </section>
+
+    <section id="kesimpulan" data-t="Kesimpulan">
+      <div class="sh"><span class="k">05</span><h2>Kesimpulan</h2></div>
+      <div class="cgrid">
+        <div><div class="label">Temuan 1</div><h4>Masalahnya inkonsistensi</h4><p>Kadar FAME bervariasi 17–78 % v/v, baik kurang maupun berlebih dari kadar nominal B40, termasuk pada tanggal sampling yang sama.</p></div>
+        <div><div class="label">Temuan 2</div><h4>Densitas mengikuti FAME</h4><p>Densitas dan viskositas berkorelasi positif kuat dengan FAME (R² hingga 0,96 dan 0,90; gabungan densitas 0,89). Sulfur negatif, flash point positif lemah–sedang, kadar air tidak konsisten.</p></div>
+        <div><div class="label">Temuan 3</div><h4>Spesifikasi saja tidak cukup</h4><p>Rentang 815–880 kg/m³ meloloskan B30 hingga B70. Densitas @15 °C di atas ±861 atau di bawah ±854 kg/m³ menjadi sinyal untuk segera menguji kadar FAME.</p></div>
+        <div><div class="label">Temuan 4</div><h4>Data harus divalidasi</h4><p>Satu kesalahan input (361 kg/m³) sempat membuat analisis FT2537 keliru. Cek silang dengan API gravity mencegah hal ini.</p></div>
+      </div>
+    </section>
+
+    <section id="rekomendasi" data-t="Rekomendasi">
+      <div class="sh"><span class="k">06</span><h2>Rekomendasi</h2></div>
+      <ol class="rec">
+        <li><span><b>Screening densitas setiap penerimaan.</b> Ukur densitas dan suhu dengan alat terkalibrasi, koreksi ke 15 °C (ASTM D1250), lalu bandingkan dengan acuan B40.</span></li>
+        <li><span><b>Jaga homogenitas campuran</b> selama pengisian dan distribusi agar kadar FAME seragam di tangki transportir maupun tangki penyimpanan.</span></li>
+        <li><span><b>Kendalikan kelembapan penyimpanan,</b> karena FAME bersifat higroskopis dan mudah menyerap air.</span></li>
+        <li><span><b>Uji laboratorium setiap batch penerimaan</b> untuk memastikan kesesuaian dengan Keputusan Dirjen Migas No. 384.K/MG.06/DJM/2024.</span></li>
+        <li><span><b>Validasi data sebelum dianalisis,</b> misalnya dengan mencocokkan densitas terhadap API gravity.</span></li>
+      </ol>
+    </section>
+
+    <section id="pustaka" data-t="Pustaka">
+      <div class="sh"><span class="k">07</span><h2>Daftar pustaka</h2></div>
+      <div class="label rg" style="margin-top:0">Jurnal dan buku</div>
+      <ul class="refs">
+        <li>Atadashi, I. M., Aroua, M. K., &amp; Abdul Aziz, A. (2010). High quality biodiesel and its diesel engine application: A review. <i>Renewable and Sustainable Energy Reviews, 14</i>(7), 1999–2008.</li>
+        <li>Demirbas, A. (2008). <i>Biodiesel: A realistic fuel alternative for diesel engines</i>. Springer. https://doi.org/10.1007/978-1-84628-995-8</li>
+        <li>Demirbas, A. (2009). Progress and recent trends in biodiesel fuels. <i>Energy Conversion and Management, 50</i>(1), 14–34. https://doi.org/10.1016/j.enconman.2008.09.001</li>
+        <li>Knothe, G. (2005). Dependence of biodiesel fuel properties on the structure of fatty acid alkyl esters. <i>Fuel Processing Technology, 86</i>(10), 1059–1070. https://doi.org/10.1016/j.fuproc.2004.11.002</li>
+      </ul>
+      <div class="label rg">Regulasi dan dokumen teknis</div>
+      <ul class="refs">
+        <li>Badan Standardisasi Nasional. (2015). <i>SNI 7182:2015 Biodiesel</i>. BSN.</li>
+        <li>Direktorat Jenderal Minyak dan Gas Bumi. (2024). <i>Keputusan Direktur Jenderal Minyak dan Gas Bumi Nomor 384.K/MG.06/DJM/2024 tentang Standar dan Mutu (Spesifikasi) Bahan Bakar Minyak Jenis Solar (B40) yang Dipasarkan di Dalam Negeri</i>. Kementerian ESDM.</li>
+        <li>Kementerian Energi dan Sumber Daya Mineral. (2008). <i>Peraturan Menteri ESDM Nomor 32 Tahun 2008 tentang Penyediaan, Pemanfaatan, dan Tata Niaga Bahan Bakar Nabati (Biofuel) sebagai Bahan Bakar Lain</i>.</li>
+        <li>Kementerian Energi dan Sumber Daya Mineral. (2015). <i>Peraturan Menteri ESDM Nomor 12 Tahun 2015 tentang Perubahan Ketiga atas Peraturan Menteri ESDM Nomor 32 Tahun 2008</i>.</li>
+        <li>Kementerian Energi dan Sumber Daya Mineral. (2024). <i>Keputusan Menteri ESDM Nomor 341.K/EK.01/MEM.E/2024</i> [penetapan mandatori biodiesel B40 mulai 1 Januari 2025].</li>
+        <li>Caterpillar Inc. (t.t.). <i>SEBU6250: Caterpillar machine fluids recommendations</i>.</li>
+        <li>Caterpillar Inc. (t.t.). <i>SENR9620: Improving fuel system durability</i>.</li>
+        <li>PT Trakindo Utama. (2024). <i>Fuel reference guide: B40 CN48</i>. SOS Laboratory. [Dokumen internal]</li>
+      </ul>
+      <div class="label rg">Standar metode uji</div>
+      <details><summary>Tampilkan 20 standar ASTM, EN, dan ISO</summary><ul class="refs" id="std" style="margin-top:1rem"></ul></details>
+    </section>
+  </main>
+</div>
+
+<footer><div class="wrap"><span>Yosep Muslim Habibi · SCM-FAW · PT Putra Perkasa Abadi Site MIPL</span><span class="mono">Data: SOS Laboratory PT Trakindo Utama · Jan–Sep 2025</span></div></footer>
+
+<script>
+const DATA = {"FT2507":{"dates":["17-Jan","22-Mar","19-Apr","23-Apr","17-May","11-Jun","23-Jul","27-Sep","29-Sep"],"f":[29,42,64,37,49,24,39,55,61],"d":[857,856,865,855,859,852,859,864,865],"v":[3.083,2.801,3.39,2.668,3.119,2.583,3.033,3.248,3.406],"fp":[62,62,72,61,70,65,70,71,69],"s":[510,589,260,549,384,729,838,544,383],"w":[311,296,356,299,280,348,289,341,248]},"FT2513":{"dates":["17-Jan","01-Mar","19-Apr","23-Apr","11-Jun","23-Jul","03-Sep","27-Sep","29-Sep"],"f":[42,17,78,73,47,40,43,45,60],"d":[860,847,869,868,860,859,858,859,864],"v":[3.301,2.365,3.7,3.553,3.028,3.039,3.029,3.078,3.375],"fp":[60,55,72,78,69,78,65,69,70],"s":[393,946,153,204,498,783,645,705,423],"w":[319,261,298,346,296,278,292,344,250]},"FT2518":{"dates":["17-Jan","22-Mar","23-Apr","17-May","11-Jun","13-Jun","05-Jul","24-Jul","23-Jul","27-Sep"],"f":[28,26,27,51,49,39,45,49,42,37],"d":[856,850,851,861,858,861,858,863,860,857],"v":[3.062,2.472,2.505,3.093,3.119,3.148,3.015,3.236,3.126,2.957],"fp":[61,57,61,65,71,74,79,72,74,67],"s":[519,716,647,391,478,497,592,649,740,801],"w":[292,302,227,354,346,271,371,369,290,281]},"FT2537":{"dates":["17-Jan","22-Mar","23-Apr","17-May","11-Jun","13-Jun","23-Jul","27-Sep"],"f":[46,57,33,51,23,51,64,71],"d":[863,862,851,860,852,861,866,869],"v":[3.427,3.189,2.527,3.106,2.655,3.153,3.49,3.624],"fp":[65,64,59,60,65,66,79,83],"s":[366,381,576,410,748,484,467,317],"w":[313,355,332,279,287,293,342,353]},"FT2510":{"dates":["17-Jan","01-Mar","22-Mar","19-Apr","23-Apr","11-Jun","23-Jul","03-Sep","27-Sep"],"f":[33,19,46,63,38,20,41,43,54],"d":[858,848,858,865,855,851,859,858,863],"v":[3.134,2.344,2.982,3.386,2.647,2.567,3.038,3.019,3.237],"fp":[62,49,65,62,66,65,74,66,62],"s":[499,931,700,267,563,758,902,644,453],"w":[295,284,308,298,283,345,291,342,293]},"FT2511":{"dates":["17-Jan","22-Mar","23-Apr","11-Jun","23-Jul","27-Sep"],"f":[34,23,31,18,62,47],"d":[858,848,852,851,866,860],"v":[3.117,2.51,2.522,2.533,3.455,3.129],"fp":[60,55,59,66,81,70],"s":[478,729,624,783,434,622],"w":[316,311,271,291,340,292]}};
+const U = Object.keys(DATA);
+const NS = 'http://www.w3.org/2000/svg';
+const $ = (s) => document.querySelector(s);
+const cssv = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const C = { fg: cssv('--fg'), fg2: cssv('--fg-2'), mu: cssv('--muted'), line: cssv('--line'), line2: cssv('--line-2'), acc: cssv('--acc'), low: cssv('--low'), ok: cssv('--ok'), high: cssv('--high') };
+const el = (t, a = {}, txt) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+const nf = (x, d = 2) => x.toFixed(d).replace('.', ',');
+const cat = (f) => f < 40 ? 'low' : f <= 50 ? 'ok' : 'high';
+const catTxt = { low: 'Kurang dari B40', ok: 'Sesuai B40', high: 'Berlebih' };
+const MON = { Jan: 'Januari', Feb: 'Februari', Mar: 'Maret', Apr: 'April', May: 'Mei', Jun: 'Juni', Jul: 'Juli', Aug: 'Agustus', Sep: 'September' };
+const longDate = (d) => { const [dd, m] = d.split('-'); return `${+dd} ${MON[m]} 2025`; };
+function lr(x, y) { const n = x.length, mx = x.reduce((a, b) => a + b) / n, my = y.reduce((a, b) => a + b) / n; let sxy = 0, sxx = 0, syy = 0;
+  for (let i = 0; i < n; i++) { sxy += (x[i] - mx) * (y[i] - my); sxx += (x[i] - mx) ** 2; syy += (y[i] - my) ** 2; } const b = sxy / sxx; return { a: my - b * mx, b, r2: sxy * sxy / (sxx * syy) }; }
+const tip = $('#tip');
+function showTip(html, x, y) { tip.innerHTML = html; tip.style.left = x + 'px'; tip.style.top = y + 'px'; tip.style.opacity = 1; }
+function hideTip() { tip.style.opacity = 0; }
+
+/* navigation */
+const secs = [...document.querySelectorAll('main section')];
+$('#toc').innerHTML = secs.map((s, i) => `<li><a href="#${s.id}">${s.querySelector('h2').textContent}</a></li>`).join('');
+$('#mnav').innerHTML = secs.map((s) => `<a href="#${s.id}">${s.dataset.t}</a>`).join('');
+const tocA = [...document.querySelectorAll('#toc a')], mA = [...document.querySelectorAll('#mnav a')];
+let lastCur = -1;
+function onScroll() { const d = document.documentElement; $('#prog').style.width = (100 * d.scrollTop / Math.max(1, d.scrollHeight - d.clientHeight)).toFixed(1) + '%';
+  let cur = 0; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.32) cur = i; });
+  if (cur !== lastCur) { lastCur = cur; tocA.forEach((a, i) => a.classList.toggle('on', i === cur)); mA.forEach((a, i) => a.classList.toggle('on', i === cur));
+    const a = mA[cur]; if (a && getComputedStyle($('.mnav')).display !== 'none') a.parentElement.scrollTo({ left: a.offsetLeft - 20, behavior: 'smooth' }); } }
+addEventListener('scroll', onScroll, { passive: true });
+
+/* abstract language */
+[['#b-id', '#abs-id'], ['#b-en', '#abs-en']].forEach(([b]) => $(b).addEventListener('click', () => {
+  [['#b-id', '#abs-id'], ['#b-en', '#abs-en']].forEach(([bb, pp]) => { const on = bb === b; $(bb).setAttribute('aria-pressed', on); $(pp).hidden = !on; }); }));
+
+/* spec bars */
+const spec = [['Densitas @15 °C', 100], ['Viskositas @40 °C', 100], ['Kadar air', 100], ['Flash point', 98], ['FAME 40–50 %', 31]];
+$('#specBars').innerHTML = spec.map(([l, v]) => `<div class="bar"><span>${l}</span><div class="t"><div class="f${v < 50 ? ' bad' : ''}" style="width:${v}%"></div></div><span class="v">${v}%</span></div>`).join('');
+
+/* heat explorer */
+const SPEC = { d: [815, 880], v: [2, 5], fp: [52, null], w: [null, 380] };
+let sel = { u: 'FT2513', i: 2 };
+function renderHeat(filter = 'all') {
+  $('#heat').innerHTML = U.map((u) => `<div class="hrow"><div class="un">${u}</div><div class="cells">${DATA[u].f.map((f, i) => {
+    const c = cat(f), fix = u === 'FT2537' && i === 5 ? ' fix' : '', dim = filter !== 'all' && filter !== c ? ' dim' : '', s = sel.u === u && sel.i === i ? ' sel' : '';
+    return `<button class="cell ${c}${fix}${dim}${s}" data-u="${u}" data-i="${i}" aria-label="${u} sampel ${i + 1}, FAME ${f} persen"><span class="f">${f}</span><span class="d">${DATA[u].d[i]}</span></button>`; }).join('')}</div></div>`).join('');
+}
+function renderDetail() { const { u, i } = sel, D = DATA[u], f = D.f[i], c = cat(f);
+  const row = (k, lab, v, unit, ok) => `<dt>${lab}</dt><dd class="${ok ? '' : 'bad'}">${v} ${unit}</dd>`;
+  $('#detail').innerHTML = `<div class="label">${u} · sampel ${i + 1}</div><div class="big">${f}<span style="font-size:.45em;color:var(--fg-2)"> % FAME</span></div>
+  <div class="tagline"><span class="status ${c}" style="margin:.4rem 0 0">${catTxt[c]}</span></div>
+  <dl><dt>Tanggal uji</dt><dd>${longDate(D.dates[i])}</dd>
+  ${row('d', 'Densitas @15 °C', D.d[i] + (u === 'FT2537' && i === 5 ? '*' : ''), 'kg/m³', true)}
+  ${row('v', 'Viskositas @40 °C', nf(D.v[i]), 'mm²/s', D.v[i] >= 2 && D.v[i] <= 5)}
+  ${row('fp', 'Flash point', D.fp[i], '°C', D.fp[i] >= 52)}
+  ${row('s', 'Sulfur', D.s[i], 'ppm', true)}
+  ${row('w', 'Kadar air', D.w[i], 'mg/kg', D.w[i] <= 380)}
+  <dt>Densitas prediksi</dt><dd>${nf(843.4 + 0.35 * f, 1)} kg/m³</dd></dl>`; }
+let heatFilter = 'all';
+renderHeat(); renderDetail();
+$('#heat').addEventListener('click', (e) => { const b = e.target.closest('.cell'); if (!b) return; sel = { u: b.dataset.u, i: +b.dataset.i }; renderHeat(heatFilter); renderDetail();
+  if (innerWidth <= 880) $('#detail').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+$('#heatFilter').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; heatFilter = b.dataset.f;
+  [...$('#heatFilter').children].forEach((x) => x.setAttribute('aria-pressed', x === b)); renderHeat(heatFilter); });
+
+/* responsive svg helper */
+function frame(svg, h) { const w = Math.max(300, svg.parentElement.clientWidth - 0); svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.setAttribute('height', h); svg.innerHTML = ''; return w; }
+function attachTip(node, html) { node.style.cursor = 'pointer';
+  node.addEventListener('pointerenter', (e) => { const r = node.getBoundingClientRect(); showTip(html, r.left + r.width / 2, r.top); });
+  node.addEventListener('pointerleave', hideTip); node.addEventListener('click', (e) => { const r = node.getBoundingClientRect(); showTip(html, r.left + r.width / 2, r.top); }); }
+
+/* same-day chart */
+function drawSameDay() { const svg = $('#sameDay'); const small = svg.parentElement.clientWidth < 520; const H = small ? 300 : 320, W = frame(svg, H);
+  const days = ['17-Jan', '23-Apr', '11-Jun', '23-Jul', '27-Sep'], L = 40, R = small ? 10 : 24, T = 24, B = 36;
+  const y = (v) => T + (1 - v / 80) * (H - T - B), x = (i) => L + (i + .5) * (W - L - R) / days.length;
+  for (let v = 0; v <= 80; v += 20) { svg.append(el('line', { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: C.line })); svg.append(el('text', { x: L - 8, y: y(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: C.mu }, v + '%')); }
+  svg.append(el('line', { x1: L, x2: W - R, y1: y(40), y2: y(40), stroke: C.ok, 'stroke-dasharray': '4 5' }));
+  svg.append(el('text', { x: W - R, y: y(40) - 6, 'text-anchor': 'end', 'font-size': 10.5, fill: C.ok }, 'B40'));
+  days.forEach((d, i) => { const vals = U.map((u) => DATA[u].f[DATA[u].dates.indexOf(d)]), mn = Math.min(...vals), mx = Math.max(...vals), cx = x(i);
+    svg.append(el('rect', { x: cx - 3, y: y(mx), width: 6, height: y(mn) - y(mx), rx: 3, fill: 'rgba(23,58,94,.12)' }));
+    vals.forEach((v, k) => { const c = el('circle', { cx: cx + (k - 2.5) * (small ? 5 : 8), cy: y(v), r: small ? 4.5 : 5.5, fill: C[cat(v)], stroke: '#fff', 'stroke-width': 1.5 });
+      attachTip(c, `<b>${U[k]}</b> · ${d.replace('-', ' ')}<br>FAME ${v}%`); svg.append(c); });
+    svg.append(el('text', { x: cx, y: H - 10, 'text-anchor': 'middle', 'font-size': 11, fill: C.fg2 }, d.replace('-', ' ')));
+    svg.append(el('text', { x: cx, y: y(mx) - 10, 'text-anchor': 'middle', 'font-size': small ? 10 : 11, fill: C.fg }, `${mn}–${mx}`)); }); }
+
+/* scatter explorer */
+const PARAMS = { d: ['Densitas', 'Densitas @15 °C (kg/m³)', [845, 872]], v: ['Viskositas', 'Viskositas @40 °C (mm²/s)', [2.2, 3.8]], s: ['Sulfur', 'Sulfur (ppm)', [100, 1000]], fp: ['Flash point', 'Flash point (°C)', [45, 85]], w: ['Kadar air', 'Kadar air (mg/kg)', [220, 380]] };
+let P = 'd', UNIT = 'all';
+$('#paramSeg').innerHTML = Object.entries(PARAMS).map(([k, v]) => `<button data-p="${k}" aria-pressed="${k === P}">${v[0]}</button>`).join('');
+$('#unitSeg').innerHTML = ['all', ...U].map((u) => `<button data-u="${u}" aria-pressed="${u === UNIT}">${u === 'all' ? 'Semua unit' : u}</button>`).join('');
+$('#paramSeg').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; P = b.dataset.p; [...$('#paramSeg').children].forEach((x) => x.setAttribute('aria-pressed', x === b)); drawScatter(); });
+$('#unitSeg').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; UNIT = b.dataset.u; [...$('#unitSeg').children].forEach((x) => x.setAttribute('aria-pressed', x === b)); drawScatter(); });
+function drawScatter() { const svg = $('#scatter'); const small = svg.parentElement.clientWidth < 520; const H = small ? 300 : 380, W = frame(svg, H);
+  const [name, axis, [y0, y1]] = PARAMS[P], L = small ? 44 : 58, R = 12, T = 16, B = 44;
+  const x = (v) => L + (v - 10) / 75 * (W - L - R), y = (v) => T + (1 - (v - y0) / (y1 - y0)) * (H - T - B);
+  const ticks = 5; for (let i = 0; i <= ticks; i++) { const v = y0 + (y1 - y0) * i / ticks; svg.append(el('line', { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: C.line }));
+    svg.append(el('text', { x: L - 8, y: y(v) + 4, 'text-anchor': 'end', 'font-size': 10.5, fill: C.mu }, P === 'v' ? nf(v, 1) : Math.round(v))); }
+  for (let v = 10; v <= 80; v += small ? 20 : 10) svg.append(el('text', { x: x(v), y: H - B + 18, 'text-anchor': 'middle', 'font-size': 10.5, fill: C.mu }, v));
+  svg.append(el('text', { x: (L + W - R) / 2, y: H - 6, 'text-anchor': 'middle', 'font-size': 11, fill: C.fg2 }, 'Kadar FAME (% v/v)'));
+  if (!small) svg.append(el('text', { x: 12, y: (T + H - B) / 2, 'text-anchor': 'middle', 'font-size': 11, fill: C.fg2, transform: `rotate(-90 12 ${(T + H - B) / 2})` }, axis));
+  svg.append(el('line', { x1: x(40), x2: x(40), y1: T, y2: H - B, stroke: C.ok, 'stroke-opacity': .5, 'stroke-dasharray': '3 5' }));
+  const F = U.flatMap((u) => DATA[u].f), Y = U.flatMap((u) => DATA[u][P]), g = lr(F, Y);
+  svg.append(el('line', { x1: x(15), y1: y(g.a + g.b * 15), x2: x(80), y2: y(g.a + g.b * 80), stroke: C.fg, 'stroke-width': 1.8, 'stroke-opacity': UNIT === 'all' ? .9 : .3 }));
+  U.forEach((u) => DATA[u].f.forEach((f, i) => { const on = UNIT === 'all' || UNIT === u, v = DATA[u][P][i];
+    const c = el('circle', { cx: x(f), cy: y(v), r: on ? 5 : 3.5, fill: on ? C.acc : C.mu, 'fill-opacity': on ? .85 : .25, stroke: '#fff', 'stroke-width': 1.2 });
+    attachTip(c, `<b>${u}</b> · ${DATA[u].dates[i].replace('-', ' ')}<br>FAME ${f}% · ${P === 'v' ? nf(v) : v}`); svg.append(c); }));
+  let ur = null; if (UNIT !== 'all') { const D = DATA[UNIT]; ur = lr(D.f, D[P]); const mn = Math.min(...D.f), mx = Math.max(...D.f);
+    svg.append(el('line', { x1: x(mn), y1: y(ur.a + ur.b * mn), x2: x(mx), y2: y(ur.a + ur.b * mx), stroke: C.high, 'stroke-width': 2, 'stroke-dasharray': '6 5' })); }
+  const sign = g.b >= 0 ? '+' : '−', dec = P === 'v' ? 4 : 3;
+  $('#readout').innerHTML = `<span>${name}: <b>y = ${nf(g.a, P === 'v' ? 3 : 1)} ${sign} ${nf(Math.abs(g.b), dec)} × FAME</b></span><span>R² gabungan <b>${nf(g.r2)}</b></span>` + (ur ? `<span>R² ${UNIT} <b>${nf(ur.r2)}</b></span>` : '') + `<span>Arah <b>${g.b > 0 ? 'naik' : 'turun'}</b></span>`; }
+
+/* r2 table */
+const pr = [['d', 'Densitas @15 °C'], ['v', 'Viskositas @40 °C'], ['s', 'Sulfur'], ['fp', 'Flash point'], ['w', 'Kadar air']];
+const allF = U.flatMap((u) => DATA[u].f);
+$('#r2rows').innerHTML = pr.map(([k, l]) => { const rs = U.map((u) => lr(DATA[u].f, DATA[u][k])), g = lr(allF, U.flatMap((u) => DATA[u][k]));
+  const mixed = new Set(rs.map((r) => Math.sign(r.b))).size > 1; const td = (r2) => `<td class="c r2"><span style="background:rgba(23,58,94,${(0.04 + r2 * 0.75).toFixed(2)});color:${r2 >= .5 ? '#fff' : C.fg2}">${nf(r2)}</span></td>`;
+  return `<tr><td class="u">${l}</td>${rs.map((r) => td(r.r2)).join('')}${td(g.r2)}<td>${mixed ? 'Tidak konsisten' : g.b > 0 ? 'Positif' : 'Negatif'}</td></tr>`; }).join('');
+
+/* calculator */
+const rho = $('#rho'), rhoR = $('#rhoR'), tmp = $('#tmp'), tmpR = $('#tmpR');
+function calc() { const r = parseFloat(rho.value), t = parseFloat(tmp.value);
+  if (!isFinite(r) || !isFinite(t)) { $('#oRho').textContent = '—'; return; }
+  const r15 = r * (1 + 0.00083 * (t - 15)), fame = Math.max(0, Math.min(100, (r15 - 843.4) / 0.350));
+  const z = r15 < 854 ? 'low' : r15 <= 861 ? 'ok' : 'high';
+  $('#oRho').innerHTML = `${nf(r15, 1)}<span style="font-size:.32em;color:var(--fg-2)"> kg/m³</span>`;
+  const st = $('#oStatus'); st.className = 'status ' + z; st.textContent = { low: 'FAME kemungkinan kurang', ok: 'Sekitar B40', high: 'FAME kemungkinan berlebih' }[z];
+  $('#oFame').textContent = `± ${Math.round(fame)} % v/v`; $('#oB').textContent = 'B' + Math.round(fame / 5) * 5;
+  $('#oAct').textContent = z === 'ok' ? 'Terima, sampling rutin' : 'Kirim sampel uji FAME';
+  const pos = Math.max(0, Math.min(100, (r15 - 840) / 40 * 100)); $('#mk').style.left = pos + '%'; }
+const g = $('#gauge'); [[840, 0], [854, 35], [861, 52.5], [880, 100]].forEach(([v, p]) => { const s = document.createElement('span'); s.className = 'tk'; s.style.left = p + '%'; s.textContent = v; g.append(s); });
+rho.addEventListener('input', () => { rhoR.value = rho.value; calc(); }); rhoR.addEventListener('input', () => { rho.value = rhoR.value; calc(); });
+tmp.addEventListener('input', () => { tmpR.value = tmp.value; calc(); }); tmpR.addEventListener('input', () => { tmp.value = tmpR.value; calc(); });
+calc();
+
+/* standards */
+const STD = [['ASTM D86', 'Standard test method for distillation of petroleum products and liquid fuels at atmospheric pressure'], ['ASTM D93', 'Standard test methods for flash point by Pensky-Martens closed cup tester'], ['ASTM D445', 'Standard test method for kinematic viscosity of transparent and opaque liquids'], ['ASTM D482', 'Standard test method for ash from petroleum products'], ['ASTM D664', 'Standard test method for acid number of petroleum products by potentiometric titration'], ['ASTM D975', 'Standard specification for diesel fuel'], ['ASTM D1250', 'Standard guide for the use of the joint API and ASTM adjunct for temperature and pressure volume correction factors (API MPMS Chapter 11.1)'], ['ASTM D1298', 'Standard test method for density, relative density, or API gravity of crude petroleum and liquid petroleum products by hydrometer method'], ['ASTM D2622', 'Standard test method for sulfur in petroleum products by wavelength dispersive X-ray fluorescence spectrometry'], ['ASTM D4052', 'Standard test method for density, relative density, and API gravity of petroleum liquids by digital density meter'], ['ASTM D4294', 'Standard test method for sulfur in petroleum and petroleum products by energy dispersive X-ray fluorescence spectrometry'], ['ASTM D4530', 'Standard test method for determination of carbon residue (micro method)'], ['ASTM D4737', 'Standard test method for calculated cetane index by four variable equation'], ['ASTM D6304', 'Standard test method for determination of water in petroleum products, lubricating oils, and additives by coulometric Karl Fischer titration'], ['ASTM D7371', 'Standard test method for determination of biodiesel (fatty acid methyl esters) content in diesel fuel oil using mid infrared spectroscopy (FTIR-ATR-PLS method)'], ['ASTM D7467', 'Standard specification for diesel fuel oil, biodiesel blend (B6 to B20)'], ['ASTM D7596', 'Standard test method for automatic particle counting and particle shape classification of oils using a direct imaging integrated tester'], ['ASTM D7806', 'Standard test method for determination of the biodiesel (fatty acid methyl esters) content of diesel fuel oil using mid infrared spectroscopy'], ['EN 15751', 'Automotive fuels – Fatty acid methyl ester (FAME) fuel and blends with diesel fuel – Determination of oxidation stability by accelerated oxidation method'], ['ISO 4406', 'Hydraulic fluid power – Fluids – Method for coding the level of contamination by solid particles']];
+$('#std').innerHTML = STD.map(([c, t]) => `<li>${c.startsWith('ASTM') ? 'ASTM International' : c.startsWith('EN') ? 'European Committee for Standardization' : 'International Organization for Standardization'}. (t.t.). <i>${c}: ${t}</i>.</li>`).join('');
+
+function drawAll() { drawSameDay(); drawScatter(); }
+drawAll(); onScroll();
+let rt; new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(drawAll, 120); }).observe($('main'));
+addEventListener('scroll', hideTip, { passive: true });
+</script>
+
+</body>
+</html>
