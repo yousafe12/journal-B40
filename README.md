@@ -1,1 +1,0 @@
-# journal-B40
